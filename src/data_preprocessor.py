@@ -79,3 +79,11 @@ def filter_data(df: pd.DataFrame, column: str = 'Major Category', category_filte
 
     filtered_df = df[df[column] == category_filter]
     return filtered_df
+
+
+def load_and_process_data() -> pd.DataFrame:
+    recent_df = load_data('recent')
+    historical_df =load_data('historical')
+    merged_df = merge_crime_data(recent_df, historical_df)
+
+    return merged_df
