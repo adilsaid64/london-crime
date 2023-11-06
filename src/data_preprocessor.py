@@ -63,11 +63,6 @@ def aggregate_to_yearly(merged_df:pd.DataFrame) -> pd.DataFrame:
 
     return yearly_df
 
-def select_crime(df:pd.DataFrame, column : str = 'Major Category', crime : str = None)->pd.DataFrame:
-    if crime == None:
-        logger.error('Choose a crime. Crime is is set None')
-    return df[df[column] == crime]
-
 def filter_data(df: pd.DataFrame, column: str = 'Major Category', category_filter: str = None) -> pd.DataFrame:
     if category_filter is None:
         logger.error('No filter value provided. Please choose a filter.')
