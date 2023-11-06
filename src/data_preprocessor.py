@@ -59,7 +59,23 @@ def aggregate_to_yearly(merged_df:pd.DataFrame) -> pd.DataFrame:
         # Sum the monthly columns and create a new yearly column
         yearly_df[year] = yearly_df[monthly_columns].sum(axis=1)
         
-        # Optionally drop monthly columns if you no longer need them
         yearly_df.drop(monthly_columns, axis=1, inplace=True)
 
     return yearly_df
+
+def select_crime(df:pd.DataFrame, column : str = 'Major Category', crime : str = None)->pd.DataFrame:
+    if crime == None:
+        logger.error('Choose a crime. Crime is is set None')
+    return df[df[column] == crime]
+
+def filter_data(df: pd.DataFrame, column: str = 'Major Category', category_filter: str = None) -> pd.DataFrame:
+    if category_filter is None:
+        logger.error('No filter value provided. Please choose a filter.')
+        return df
+
+    if column not in df.columns:
+        logger.error(f'Column "{column}" not in dataframe.')
+        return df
+
+    filtered_df = df[df[column] == category_filter]
+    return filtered_df
