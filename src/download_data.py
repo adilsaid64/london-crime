@@ -1,6 +1,10 @@
 import pandas as pd
 import time
 
+from src.logger_setup import setup_logger
+
+# logger object for the current module
+logger = setup_logger(__name__)
 
 def download_data_from_web():  
     '''
@@ -9,6 +13,7 @@ def download_data_from_web():
 
     returns (Tuple): [pd.DataFrame, pd.DataFrame]. Will return a tuple of two dataframes. The first is the historical data and the second is the recent data
     '''
+    
     historical_df = pd.read_csv('https://data.london.gov.uk/download/recorded_crime_summary/bf244ffa-326b-49cc-a7df-0e3193abe818/MPS%20LSOA%20Level%20Crime%20%28Historical%29.csv')
     recent_df = pd.read_csv('https://data.london.gov.uk/download/recorded_crime_summary/221142dd-f7b2-4209-921e-4de833a82285/MPS%20LSOA%20Level%20Crime%20%28most%20recent%2024%20months%29.csv')
 
