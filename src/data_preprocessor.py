@@ -2,14 +2,10 @@ import os
 import pandas as pd
 from glob import glob
 
-import logging
+from src.logger_setup import setup_logger
 
-# Configure logging
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
-
-# Create a logger object
-logger = logging.getLogger(__name__)
-
+# logger object for the current module
+logger = setup_logger(__name__)
 
 def load_data(file_type : str) -> pd.DataFrame:
     '''
@@ -63,8 +59,18 @@ def aggregate_to_yearly(merged_df:pd.DataFrame) -> pd.DataFrame:
 
     return yearly_df
 
-def filter_data(df: pd.DataFrame, column: str = 'Major Category', category_filter: str = None) -> pd.DataFrame:
-    if category_filter is None:
+def filter_data(df: pd.DataFrame, column: str = 'Major Category', category_filters: list = ['Theft', 'Burglary']) -> pd.DataFrame:
+    '''
+    Filters a DataFrame based on values in a specified column.
+
+    :param df (pd.DataFrame): The DataFrame to filter.
+    :param column (str): The column name to apply the filter on.
+    :param category_filters (list): A list of values to filter the column by. If None, no filtering is applied.
+
+    :return (pd.DataFrame): A filtered DataFrame if filter values are provided; otherwise, the original DataFrame.
+    '''
+
+    if category_filters is None:
         logger.error('No filter value provided. Please choose a filter.')
         return df
 
@@ -72,7 +78,7 @@ def filter_data(df: pd.DataFrame, column: str = 'Major Category', category_filte
         logger.error(f'Column "{column}" not in dataframe.')
         return df
 
-    filtered_df = df[df[column] == category_filter]
+    filtered_df = df[df[column].isin(category_filters)]
     return filtered_df
 
 
